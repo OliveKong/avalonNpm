@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>avalon练习</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="node_modules/avalon2/dist/avalon.js"></script>
+	<style type="text/css">
+		/*[ms-controller]{
+		     visibility: hidden;
+		  }*/
+	</style>
+</head>
+<body>
+	<!-- 差值表达式 -->
+	<!-- 插值表达式一般与带格式化功能的过滤器一起使用 -->
+	<div ms-controller="test">
+		<p>{{@aaa}}{{@bbb}} 这个性能差些</p>
+		<p>{{@aaa+@bbb}} 这个性能好些</p>
+		<p>{{@aaa+@bbb | uppercase}} 选择器必须放在表达值的后端</p>
+	</div>
+	<!-- 指令的练习 -->
+	<!-- ms-skip -->
+	<div ms-controller="master">
+		<p ms-skip="true">{{@a1}}</p>
+		<!-- 让avalon的扫描引擎跳过某一部分区域, 方便能原样输出.合理使用ms-skip能大大提高性能 -->
+		<p>{{@a1}}</p>
+	</div>
+	<!-- ms-controller的作用域 -->
+	<!-- controller绑定。这个指令是用于圈定某个VM的作用域范围(换言之,这个元素的outerHTML会被扫描编译,所有ms-*及双花括号替换成vm中的内容),ms-controller的属性值只能是某个VM的$id。ms-controller的元素节点下面的其他节点也可以使用ms-controller。每个VM的$id可以在页面上出现一次, 因此不要在ms-for内使用ms-controller。当我们在某个指令上用@aaa时,它会先从其最近的ms-controller元素上找, 找不到再往其更上方的ms- -->
+	<div ms-controller="AAA">
+		<div>{{@name}}:{{@color}}</div>
+		<div ms-controller="BBB">
+			<div>{{@name}}:{{@color}}</div>
+			<div ms-controller="CCC">
+				{{@name}}:{{@color}}
+			</div>
+			<!-- ms-important只能用于ms-controller的元素里面 -->
+			<!-- 与ms-controller不一同的是,当某个属性在ms-important的VM找不到时,就不会所上寻找 -->
+			<!-- 不要在ms-for内使用ms-important -->
+			<div ms-important="DDD">
+				<div>
+					{{@name}}:{{@color}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ms-controller="attr1">
+		<script type="text/javascript">
+			avalon.define({
+				$id:"attr1",
+				obj:{title:"普通",align:"left"},
+				active:{title:"激活"},
+				title:111,
+				height:222,
+				arr:[{img:"aaa"},{img:"bbb"},{img:"ccc"}],
+				path:"img/1.png",
+				toggle:false,
+				array:[{title:11111},{height:2}]
+			});
+		</script>
+		<div ms-attr="@obj">直接引用对象</div>
+		<img ms-attr="{src: @path,width:@title}" />
+		<ul>
+			<li ms-for="el in @arr"><a ms-attr="{href: 'http://www.ccc.xxx/ddd/'+ el.img}">下载</a></li>
+		</ul>
+		<div :attr="{title: @title, height: @height}">使用对象字面量</div>
+		<div :attr="@array">
+			直接使用数组
+		</div>
+		<!-- 最后这个不太明白 -->
+		<span :attr="[@obj1, @toggle && @active ]" :click="@toggle = !@toggle">选择性添加多余属性或重写已有属性</span>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	avalon.define({
+		$id:"test",
+		aaa:"aaa",
+		bbb:"bbb"
+	});
+	var vm=avalon.define({
+		$id:"master",
+		a1:"xxxx",
+		toggle:false
+	});
+	avalon.define({
+		$id:"AAA",
+		name:"outerA",
+		color:"blue"
+	});
+	avalon.define({
+		$id:"BBB",
+		name:"outerB",
+		color:"green"
+	});
+	avalon.define({
+		$id:"CCC",
+		name:"outerC" //不存在color
+	});
+	avalon.define({
+		$id:"DDD",
+		name:"outerD" //不存在color
+	});
+</script>

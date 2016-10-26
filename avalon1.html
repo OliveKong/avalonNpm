@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>first example</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="node_modules/avalon2/dist/avalon.js"></script>
+        <script>
+            var vm = avalon.define({
+            //1 vm,使用avalon.define方法生成，必须带$id属性
+                $id:"test",
+                name:"OliveKong",
+                array:[1,2,3]
+            });
+            setTimeout(function(){
+                vm.array.set(0,111);
+            },3000);
+        </script>
+    </head>
+    <!-- 2 圈定作用域,使用ms-controller告诉框架,只处理这个范围内的标签 -->
+    <body ms-controller="test">
+        <!-- 3 指令,以ms-开头的属性及双花括号的插值表达式 -->
+        <!-- 4 引导符,使用@或##来告诉框架这些变量是来自vm的 -->
+        <!-- 5 自动扫描机制 -->
+        <input type="text" ms-duplex="@name">
+        <p>hello,{{@name}}</p>
+        <ul><li ms-for="($index,el) in @array">{{$index}}--{{el}}</li></ul>
+    </body>
+</html>

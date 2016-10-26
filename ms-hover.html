@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ms-hover</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="node_modules/avalon2/dist/avalon.js"></script>
+	<style type="text/css">
+		.aaa{ font-size: 20px; text-indent: 2em;}
+		.bbb{background-color: #f0f0f0; border:3px solid #000;}
+		.ccc{color: blue}
+		.ddd{font-style: italic; font-size: 20px; color: green;}
+		.xxx{font-size: 25px; color: #fff; background: tan;}
+		.yyy{line-height: 3;}
+		.zzz{font-weight: 600;}
+		.eee{
+			color: purple;
+		}
+		.eee4{
+			color: skyblue;font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<!-- hover 绑定 用于类实现:hover伪类的效果, 当用户鼠标移动元素上方时添加几个类名, 鼠标移走时将刚才的 类名移除，用法类似于类名绑定-->
+	<div ms-controller="test">
+		<p ms-hover="@aaa">直接引用字符串</p>
+		<p ms-hover="@ccc">直接引用数组</p>
+		<p ms-hover="[@aaa,@bbb]">使用数组字面量</p>  <!-- @xxx是引用变量，而'xxx'则是直接引入class名 -->
+		<p ms-hover="['aaa','bbb',(@toggle?'ccc':'ddd')]">选择性添加类名</p>
+		<p :hover="[@toggle && 'aaa']">选择性添加类名</p>
+		<p :hover="[ @ddd + 4]">动态生成类名</p>
+	</div>
+	<script type="text/javascript">
+		avalon.define({
+			$id:"test",
+			aaa:"aaa bbb ccc",
+			bbb:"ddd",
+			ccc:["xxx","yyy","zzz"],
+			ddd:"eee",
+			toggle:true,
+			toggle2:false
+		});
+	</script>
+</body>
+</html>

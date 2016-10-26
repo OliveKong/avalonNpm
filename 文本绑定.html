@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文本绑定</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="node_modules/avalon2/dist/avalon.js"></script>
+</head>
+<body ms-controller="test">
+	<!-- 文本绑定是最简单的绑定,它其实是双花括号插值表达式的一种形式-->
+	<!--它要求VM对应的属性的类型为字符串, 数值及布尔, 如果是null, undefined将会被转换为空字符串 -->
+	<p ms-text="@aaa">不使用过滤器</p>
+	<p ms-text="@aaa | uppercase">使用过滤器</p>
+	<script type="text/javascript">
+		avalon.define({
+			$id:"test",
+			aaa:"OliveKong"
+		});
+	</script>
+</body>
+</html>

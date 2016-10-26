@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>html绑定</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="node_modules/avalon2/dist/avalon.js"></script>
+</head>
+<body ms-controller="test">
+	<!-- HTML绑定类似于文本绑定,能将一个元素清空,填上你需要的内容-->
+	<!--它要求VM对应的属性的类型为字符串 -->
+	<span ms-html="@aaa">不使用过滤器</span>
+	<span ms-html="@aaa | uppercase">使用过滤器</span>
+
+	<!-- 我们可以通过ms-html异步加载大片内容 -->
+	<div ms-html="@bbb"></div>
+	<script type="text/javascript">
+		var vm=avalon.define({
+			$id:"test",
+			aaa:"loading...",
+			bbb:"olivekong"
+		});
+	</script>
+</body>
+</html>

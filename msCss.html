@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="node_modules/avalon2/dist/avalon.js"></script>
+</head>
+<body>
+	<div ms-controller="test">
+		<div ms-css="@obj">直接引用对象</div>
+		<div :css="{width: @width,height: @height,background:'pink'}">
+			使用对象字面量
+		</div>
+		<div ms-css="@array">
+			直接引用数组
+		</div>
+		<!-- @toggle && @active，当@toggle与@avtive同时为真的时候，div加上该属性 -->
+		<div ms-css="[@obj,@toggle && @active]" :click="@toggle=!@toggle">选择性添加多余属性或重写已有属性</div>
+		<div :css="{background: 'url('+@imageUrl + ') no-repeat center center;',height:100}">图片</div>
+		<!-- 上面的方式图片没加上 -->
+		<div :css="{backgroundImage: 'url('+@imageUrl + ')',height:200,backgroundSize:100,backgroundRepeat:'no-repeat'}">图片</div>
+		<!-- 添加背景图必须分着写属性 -->
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	avalon.define({
+		$id:"test",
+		obj:{backgroundColor:"grey",width:200,height:60,"text-align":"center"},
+		//属性名带-的必须用引号引起来
+		active:{color:"white"},
+		width:200,
+		height:50,
+		toggle:true,
+		array:[{width:200},{height:50},{border:"1px solid purple"}],
+		imageUrl:"img/1.png",
+	});
+</script>

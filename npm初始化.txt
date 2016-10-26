@@ -1,0 +1,4 @@
+npm init
+然后一直enter 可以输入信息
+输完后，文件夹中会出现一个名为package.json的文件
+最后在npm install xxx  eg:npm install avalon2
